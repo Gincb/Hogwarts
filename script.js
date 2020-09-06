@@ -73,19 +73,16 @@ function showData(data) {
     myClone.querySelector(".middle-name").classList.add("hide"); // Check if nickname is same as middle name then hide
   }
 
+  studentObject.house = data.house.trim();
+  studentObject.house =
+    studentObject.house[0].toUpperCase() +
+    studentObject.house.substring(1).toLowerCase();
+
   console.log(studentObject);
 
   myClone.querySelector(".gender").innerHTML = data.gender;
-  myClone.querySelector(".house").innerHTML = data.house;
+  myClone.querySelector(".house").innerHTML = studentObject.house;
 
   const where = document.querySelector(".content");
   where.appendChild(myClone);
 }
-
-// // let respone = [];
-
-// // fields.forEach((item) => {
-// //   respone.push({ [item.label]: "" });
-// // });
-
-// console.log(studentObject);
