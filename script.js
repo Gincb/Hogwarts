@@ -2,15 +2,7 @@
 
 window.addEventListener("DOMContentLoaded", getData);
 
-let studentObject = {
-  firstname: "",
-  middlename: "",
-  image: "",
-  lastname: "",
-  nickname: "",
-
-  house: "",
-};
+let studentObject = [];
 
 function getData() {
   fetch("https://petlatkea.dk/2020/hogwarts/students.json")
