@@ -1,0 +1,17 @@
+.first-name,
+.middle-name,
+.last-name {
+  color: aqua;
+}
+
+.gender {
+  color: pink;
+}
+
+.house {
+  color: green;
+}
+
+.hide {
+  display: none;
+}
