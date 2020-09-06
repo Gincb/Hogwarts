@@ -2,7 +2,15 @@
 
 window.addEventListener("DOMContentLoaded", getData);
 
-let studentObject = [];
+let studentObject = {
+  firstname: "",
+  middlename: "",
+  image: "",
+  lastname: "",
+  nickname: "",
+
+  house: "",
+};
 
 function getData() {
   fetch("https://petlatkea.dk/2020/hogwarts/students.json")
@@ -53,11 +61,6 @@ function showData(data) {
     studentObject.nickname = studentObject.middlename.slice(1, -1); //Set nickname
   }
 
-  myClone.querySelector(".first-name").innerHTML = studentObject.firstname;
-  myClone.querySelector(".middle-name").innerHTML = studentObject.middlename;
-  myClone.querySelector(".last-name").innerHTML = studentObject.lastname;
-  myClone.querySelector(".nick-name").innerHTML = studentObject.nickname;
-
   if (studentObject.middlename == undefined) {
     myClone.querySelector(".middle-name").classList.add("hide"); // Hide if there is no middlename
   } else {
@@ -76,13 +79,50 @@ function showData(data) {
   studentObject.house = data.house.trim();
   studentObject.house =
     studentObject.house[0].toUpperCase() +
-    studentObject.house.substring(1).toLowerCase();
+    studentObject.house.substring(1).toLowerCase(); //Capitalize house name
 
-  console.log(studentObject);
+  if (
+    studentObject.lastname.includes(`-`) ||
+    studentObject.firstname.includes(`-`)
+  ) {
+    studentObject.image = `images/${studentObject.lastname
+      .substring(studentObject.lastname.indexOf("-") + 1)
+      .toLowerCase()}_${studentObject.firstname[0].toLowerCase()}.png`;
+  } else {
+    studentObject.image = `images/${studentObject.lastname.toLowerCase()}_${studentObject.firstname[0].toLowerCase()}.png`;
+  }
 
+  //Check if image exists
+  var iamgeExists = function (url) {
+    var xhr = new XMLHttpRequest();
+    xhr.open("HEAD", url, false);
+    xhr.send();
+    return xhr.status != 404;
+  };
+
+  var url = studentObject.image;
+
+  if (iamgeExists(url)) {
+    console.log("This is fine");
+  } else if (iamgeExists(url) == false) {
+    studentObject.image = `images/${studentObject.lastname.toLowerCase()}_${studentObject.firstname.toLowerCase()}.png`;
+  }
+
+  // if (iamgeExists(url) == false) {
+  //   studentObject.image = undefined;
+  //   myClone.querySelector(".img").classList.add("hide");
+  // }
+
+  myClone.querySelector(".first-name").innerHTML = studentObject.firstname;
+  myClone.querySelector(".middle-name").innerHTML = studentObject.middlename;
+  myClone.querySelector(".last-name").innerHTML = studentObject.lastname;
+  myClone.querySelector(".nick-name").innerHTML = studentObject.nickname;
   myClone.querySelector(".gender").innerHTML = data.gender;
   myClone.querySelector(".house").innerHTML = studentObject.house;
 
+  myClone.querySelector(".img").src = studentObject.image;
+
   const where = document.querySelector(".content");
   where.appendChild(myClone);
+  console.log(studentObject);
 }
