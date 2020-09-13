@@ -1,5 +1,50 @@
+body,
+html {
+  margin: 0;
+  color: #0d0000;
+  background-color: #d9d0d0;
+}
+
 .wrapper {
-  padding: 2em 0;
+  margin: auto;
+  width: 90vw;
+}
+
+.thumbnail {
+  margin: 2em 0;
+  width: 100%;
+  height: 30vh;
+  background-image: url("https://images.unsplash.com/photo-1598153346810-860daa814c4b?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=2090&q=80");
+  background-size: cover;
+  background-position: center;
+}
+
+.heading {
+  position: relative;
+  top: 30%;
+  margin: auto;
+  padding: 0.5em 0;
+  text-align: center;
+  color: white;
+  width: 100%;
+  font-size: 3em;
+}
+
+#sort {
+  width: 30%;
+  border-radius: 5px;
+}
+
+.content {
+  grid-area: content;
+  display: flex;
+  flex-wrap: wrap;
+  background-color: white;
+}
+
+.student {
+  padding: 2em;
+  margin: 2em;
 }
 
 .first-name,
@@ -18,6 +63,50 @@
 
 .house {
   color: green;
+}
+
+.hide {
+  display: none;
+}
+
+/* Navigation */
+.navbar {
+  margin-top: 1em;
+  padding: 0.5em 0;
+  overflow: visible;
+  position: inherit;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 18px;
+  border-bottom: 1px solid #a6948a;
+  background-color: white;
+}
+
+.navbar-list {
+  width: 100%;
+  display: flex;
+  margin-right: 30px;
+  margin-top: 0;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  list-style-type: none;
+}
+
+.navbar-list li {
+  margin: 0;
+}
+
+.navbar-list :nth-child(1) {
+  margin-top: 0;
+}
+
+.nav-links {
+  padding: 0 25px;
+  width: 150px;
+  text-decoration: none;
+  color: #260101;
 }
 
 .hide {

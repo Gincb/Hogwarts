@@ -116,5 +116,5 @@ function showData(data) {
 
   const where = document.querySelector(".content");
   where.appendChild(myClone);
-  console.log(studentObject);
+  console.table(studentObject);
 }

@@ -3,14 +3,53 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="robots" content="noindex, nofollow" />
     <link rel="stylesheet" href="style.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/css/all.css"
+    />
     <title>Hogwarts</title>
   </head>
   <body>
-    <main class="content"></main>
+    <div class="wrapper">
+      <!-- Navbar -->
+      <nav class="navbar">
+        <ul class="navbar-list" id="js-menu">
+          <li>
+            <a href="index.html" class="nav-links active-link">Home</a>
+          </li>
+          <li>
+            <a href="pages/art-guide.html" class="nav-links">Art Guide</a>
+          </li>
+          <li>
+            <a href="pages/contact-us.html" class="nav-links">Contact Us</a>
+          </li>
+          <li>
+            <a href="pages/newsletter.html" class="nav-links">Newsletter</a>
+          </li>
+          <li>
+            <a href="#" class="nav-links">Search</a>
+          </li>
+        </ul>
+      </nav>
+
+      <div class="thumbnail"><h1 class="heading">Student List</h1></div>
+
+      <div class="content-wrapper">
+        <select name="sort" id="sort">
+          <option value="">House</option>
+          <option value="">First name</option>
+          <option value="">Last name</option>
+          <option value="">Blood status</option>
+          <option value="">Status</option>
+        </select>
+        <main class="content"></main>
+      </div>
+    </div>
 
     <template id="template">
-      <div class="wrapper">
+      <div class="student">
         <img class="img" src="" alt="" />
         <p>Firstname: <span class="first-name"></span></p>
         <p>Middlename: <span class="middle-name"></span></p>
