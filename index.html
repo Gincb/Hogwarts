@@ -6,8 +6,8 @@
     <meta name="robots" content="noindex, nofollow" />
     <link rel="stylesheet" href="style.css" />
     <link
+      href="https://fonts.googleapis.com/css2?family=Lato&display=swap"
       rel="stylesheet"
-      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/css/all.css"
     />
     <title>Hogwarts</title>
   </head>
@@ -52,13 +52,28 @@
       <div class="student">
         <img class="img" src="" alt="" />
         <p>Firstname: <span class="first-name"></span></p>
-        <p>Middlename: <span class="middle-name"></span></p>
-        <p>Lastname: <span class="last-name"></span></p>
-        <p>Nickname: <span class="nick-name"></span></p>
-        <p>Gender: <span class="gender"></span></p>
-        <p>House: <span class="house"></span></p>
       </div>
     </template>
+
+    <div class="modal-background hide" data-theme="">
+      <div class="modal-content modal-grid">
+        <div class="close"><span>X</span></div>
+        <div>
+          <img class="student-img" src="" alt="" />
+        </div>
+        <div class="student-content">
+          <h1 class="full-name">
+            <span class="modal-first-name"> </span>
+            <span class="middle-name"></span> <span class="last-name"></span>
+          </h1>
+          <p class="nick-name-hide">AKA <span class="nick-name"></span></p>
+        </div>
+        <div class="house">
+          <div class="crest-img"></div>
+          <h1 class="house-name"></h1>
+        </div>
+      </div>
+    </div>
 
     <script src="script.js"></script>
   </body>
