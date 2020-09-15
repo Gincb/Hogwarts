@@ -13,31 +13,21 @@
   </head>
   <body>
     <div class="wrapper">
+      <div class="thumbnail"><h1 class="heading">Student List</h1></div>
+
       <!-- Navbar -->
       <nav class="navbar">
-        <ul class="navbar-list" id="js-menu">
-          <li>
-            <a href="index.html" class="nav-links active-link">Home</a>
-          </li>
-          <li>
-            <a href="pages/art-guide.html" class="nav-links">Art Guide</a>
-          </li>
-          <li>
-            <a href="pages/contact-us.html" class="nav-links">Contact Us</a>
-          </li>
-          <li>
-            <a href="pages/newsletter.html" class="nav-links">Newsletter</a>
-          </li>
-          <li>
-            <a href="#" class="nav-links">Search</a>
-          </li>
+        <ul class="navbar-list">
+          <li class="nav-links">Active Students</li>
+          <li class="nav-links">Expelled</li>
+          <li class="nav-links">Prefects</li>
+          <li class="nav-links">Inquisitorial Squad</li>
+          <li class="nav-links">House</li>
         </ul>
       </nav>
 
-      <div class="thumbnail"><h1 class="heading">Student List</h1></div>
-
       <div class="content-wrapper">
-        <select name="sort" id="sort">
+        <select class="sort" name="sort" id="sort">
           <option value="">House</option>
           <option value="">First name</option>
           <option value="">Last name</option>
@@ -51,12 +41,14 @@
     <template id="template">
       <div class="student">
         <img class="img" src="" alt="" />
-        <p>Firstname: <span class="first-name"></span></p>
+        <div class="name-fade">
+          <h1 class="first-name"></h1>
+        </div>
       </div>
     </template>
 
     <div class="modal-background hide" data-theme="">
-      <div class="modal-content modal-grid">
+      <div class="modal-content modal-flex">
         <div class="close"><span>X</span></div>
         <div>
           <img class="student-img" src="" alt="" />

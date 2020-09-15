@@ -7,7 +7,11 @@ const modalClose = document.querySelector(".close");
 const modal = document.querySelector(".modal-background");
 
 modalClose.addEventListener("click", () => {
-  modal.classList.add("hide");
+  modal.classList.add("animationFadeOut");
+  setTimeout(function () {
+    modal.classList.remove("animationFadeOut");
+    modal.classList.add("hide");
+  }, 350);
 });
 
 let studentObject = [];
@@ -34,39 +38,13 @@ function handleData(students) {
 
 function prepareData(data) {
   const student = Object.create(oneStudent);
-  console.table(data);
   nameSeperator(data, student);
 
   student.house = data.house.trim();
   student.house =
     student.house[0].toUpperCase() + student.house.substring(1).toLowerCase(); //Capitalize house name
 
-  if (
-    (student.lastname && student.lastname.includes(`-`)) ||
-    student.firstname.includes(`-`)
-  ) {
-    student.image = `images/${student.lastname
-      .substring(student.lastname.indexOf("-") + 1)
-      .toLowerCase()}_${student.firstname[0].toLowerCase()}.png`;
-  } else if (student.lastname) {
-    student.image = `images/${student.lastname.toLowerCase()}_${student.firstname[0].toLowerCase()}.png`;
-  }
-
-  //Check if image exists
-  var iamgeExists = function (url) {
-    var xhr = new XMLHttpRequest();
-    xhr.open("HEAD", url, false);
-    xhr.send();
-    return xhr.status != 404;
-  };
-
-  var url = student.image;
-
-  if (iamgeExists(url)) {
-    console.log("This is fine");
-  } else if (iamgeExists(url) == false) {
-    student.image = `images/${student.lastname.toLowerCase()}_${student.firstname.toLowerCase()}.png`;
-  }
+  setAndFindImg(student);
 
   studentObject.push(student);
 
@@ -81,6 +59,7 @@ function displayStudentList() {
 
 function displayStudent(student) {
   //Put data to the template
+  console.log(student);
   const templateElement = document.querySelector("#template").content;
   const myClone = templateElement.cloneNode(true);
 
@@ -91,6 +70,12 @@ function displayStudent(student) {
 
   function openModal() {
     showModalContent(student);
+
+    modal.classList.add("animationFadein");
+    setTimeout(function () {
+      modal.classList.remove("animationFadein");
+    }, 350);
+
     modal.classList.remove("hide");
   }
 
@@ -144,12 +129,47 @@ function nameSeperator(data, student) {
   }
 }
 
+function setAndFindImg(student) {
+  if (
+    (student.lastname && student.lastname.includes(`-`)) ||
+    student.firstname.includes(`-`)
+  ) {
+    student.image = `images/${student.lastname
+      .substring(student.lastname.indexOf("-") + 1)
+      .toLowerCase()}_${student.firstname[0].toLowerCase()}.png`;
+  } else if (student.lastname) {
+    student.image = `images/${student.lastname.toLowerCase()}_${student.firstname[0].toLowerCase()}.png`;
+  } else {
+    student.image = `images/${student.firstname.toLowerCase()}.png`;
+  }
+
+  //Check if image exists function will be replaced, found
+  var iamgeExists = function (url) {
+    var xhr = new XMLHttpRequest();
+    xhr.open("HEAD", url, false);
+    xhr.send();
+    return xhr.status != 404;
+  };
+
+  var url = student.image;
+
+  if (iamgeExists(url)) {
+    console.log("This is fine");
+  } else if (iamgeExists(url) == false) {
+    student.image = `images/${student.lastname.toLowerCase()}_${student.firstname.toLowerCase()}.png`;
+  }
+}
+
 function showModalContent(student) {
   modal.querySelector(".modal-first-name").innerHTML = student.firstname;
   modal.querySelector(".middle-name").innerHTML = student.middlename;
 
   if (student.middlename == undefined) {
     modal.querySelector(".middle-name").classList.add("hide"); // Hide if there is no middlename
+  }
+
+  if (student.lastname == undefined) {
+    modal.querySelector(".last-name").classList.add("hide"); // Hide if there is no middlename
   }
 
   if (student.nickname) {
