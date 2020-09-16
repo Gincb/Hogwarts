@@ -97,6 +97,7 @@ function prepareData(jsonData) {
 }
 
 function displayStudentList() {
+  cleanArrows();
   document.querySelector(".content").innerHTML = "";
 
   // document.querySelector("#sort").addEventListener("change", sortingValues);
@@ -280,10 +281,14 @@ function expelling(student) {
     modal.querySelector("#expel").classList.add("hide");
     modal.querySelector(".expel-status").classList.remove("hide");
     displayStudentList(displayStudent); //refresh the list
+  } else if (student.status === "expelled") {
+    modal.querySelector("#expel").classList.remove("hide");
+    modal.querySelector(".expel-status").classList.add("hide");
   }
 }
 
 function displayExpelled() {
+  cleanArrows();
   currentList = expelledStudents;
   displayCurrentList(currentList);
 }
@@ -318,15 +323,27 @@ function confirmAction(action) {
 }
 
 function sortingValues() {
+  cleanArrows();
+
+  this.style.setProperty("--sort-content", " ");
   let valueOption = this.getAttribute("value");
   let direction = this.dataset.sort;
 
   if (direction == "asc") {
     this.dataset.sort = "dsc";
-  } else {
+    this.style.setProperty("--sort-content", `"▲"`);
+  } else if (direction == "dsc") {
     this.dataset.sort = "asc";
+    this.style.setProperty("--sort-content", `"▼"`);
   }
+
   displayCurrentList(sortStudents(currentList, valueOption, direction));
+}
+
+function cleanArrows() {
+  let liElem = document.querySelectorAll(".sort-li");
+
+  liElem.forEach((li) => li.style.setProperty("--sort-content", " "));
 }
 
 function sortStudents(students, key, direction) {

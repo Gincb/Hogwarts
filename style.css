@@ -17,6 +17,7 @@ html {
   --accent-color: #f76f6f8a;
   --text-color: #f76f6f8a;
   --faded-background: #161616f1;
+  --sort-content: "";
 }
 
 [data-theme="Slytherin"] {
@@ -53,6 +54,10 @@ html {
   --text-color: #0d0d0d;
   --faded-background: #a62929ea;
   --crest-image: url("https://images-wixmp-ed30a86b8c4ca887773594c2.wixmp.com/f/48b79ea6-d6ad-42d5-8a9d-b8fdbc2ac931/d4iijzk-9fd11c8f-bc6e-4f57-a803-216cc7074cf0.png?token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ1cm46YXBwOiIsImlzcyI6InVybjphcHA6Iiwib2JqIjpbW3sicGF0aCI6IlwvZlwvNDhiNzllYTYtZDZhZC00MmQ1LThhOWQtYjhmZGJjMmFjOTMxXC9kNGlpanprLTlmZDExYzhmLWJjNmUtNGY1Ny1hODAzLTIxNmNjNzA3NGNmMC5wbmcifV1dLCJhdWQiOlsidXJuOnNlcnZpY2U6ZmlsZS5kb3dubG9hZCJdfQ.Kl6wjROG_YoUUyQ9ucTHoAINOCD3Mg22q-hJbTYAx-U");
+}
+
+[data-sort]::after {
+  content: var(--sort-content);
 }
 
 .wrapper {
