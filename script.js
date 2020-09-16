@@ -14,6 +14,7 @@ let studentObject = [];
 let halfFamily = [];
 let pureFamily = [];
 let expelledStudents = [];
+let currentList = [];
 
 let oneStudent = {
   firstname: "",
@@ -95,11 +96,6 @@ function prepareData(jsonData) {
   displayStudentList();
 }
 
-function displayExpelled() {
-  document.querySelector(".content").innerHTML = "";
-  expelledStudents.forEach(displayStudent);
-}
-
 function displayStudentList() {
   document.querySelector(".content").innerHTML = "";
 
@@ -110,7 +106,14 @@ function displayStudentList() {
     button.addEventListener("click", sortingValues)
   );
 
-  studentObject.forEach(displayStudent);
+  currentList = studentObject;
+
+  displayCurrentList(currentList);
+}
+
+function displayCurrentList(currentList) {
+  document.querySelector(".content").innerHTML = "";
+  currentList.forEach(displayStudent);
 }
 
 function displayStudent(student) {
@@ -150,13 +153,9 @@ function nameSeperator(data, student) {
 
   student.lastname = seperateName.pop(); //Get last name
 
-  if (student.lastname == student.firstname) {
-    student.lastname = undefined;
-  } else {
-    student.lastname =
-      student.lastname[0].toUpperCase() +
-      student.lastname.substring(1).toLowerCase(); //Get last name
-  }
+  student.lastname =
+    student.lastname[0].toUpperCase() +
+    student.lastname.substring(1).toLowerCase(); //Get last name
 
   if (student.lastname && student.lastname.includes("-")) {
     student.lastname =
@@ -194,26 +193,12 @@ function setAndFindImg(student) {
     student.image = `images/${student.lastname
       .substring(student.lastname.indexOf("-") + 1)
       .toLowerCase()}_${student.firstname[0].toLowerCase()}.png`;
-  } else if (student.lastname) {
-    student.image = `images/${student.lastname.toLowerCase()}_${student.firstname[0].toLowerCase()}.png`;
-  } else {
-    student.image = `images/${student.firstname.toLowerCase()}.png`;
-  }
-
-  //Check if image exists function will be replaced, found
-  var iamgeExists = function (url) {
-    var xhr = new XMLHttpRequest();
-    xhr.open("HEAD", url, false);
-    xhr.send();
-    return xhr.status != 404;
-  };
-
-  var url = student.image;
-
-  if (iamgeExists(url)) {
-    console.log("This is fine");
-  } else if (iamgeExists(url) == false) {
+  } else if (student.lastname == "Patil") {
     student.image = `images/${student.lastname.toLowerCase()}_${student.firstname.toLowerCase()}.png`;
+  } else if (student.firstname === student.lastname) {
+    student.image = `images/noimage.png`;
+  } else {
+    student.image = `images/${student.lastname.toLowerCase()}_${student.firstname[0].toLowerCase()}.png`;
   }
 }
 
@@ -240,7 +225,7 @@ function showModalContent(student) {
     modal.querySelector(".middle-name").classList.add("hide"); // Hide if there is no middlename
   }
 
-  if (student.lastname == undefined) {
+  if (student.lastname == student.firstname) {
     modal.querySelector(".last-name").classList.add("hide"); // Hide if there is no middlename
   }
 
@@ -274,6 +259,11 @@ function expelling(student) {
     modal.querySelector(".expel-status").classList.remove("hide");
     displayStudentList(displayStudent); //refresh the list
   }
+}
+
+function displayExpelled() {
+  currentList = expelledStudents;
+  displayCurrentList(currentList);
 }
 
 //Popup confirmation
@@ -316,8 +306,7 @@ function sortingValues() {
   } else {
     this.dataset.sort = "asc";
   }
-
-  sortStudents(studentObject, valueOption, direction);
+  displayCurrentList(sortStudents(currentList, valueOption, direction));
 }
 
 function sortStudents(students, key, direction) {
