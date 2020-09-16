@@ -122,6 +122,7 @@ html {
 }
 
 .student:hover .name-fade {
+  cursor: pointer;
   opacity: 1;
 }
 
@@ -162,6 +163,7 @@ html {
 }
 
 .nav-links {
+  cursor: pointer;
   color: #260101;
 }
 
@@ -171,7 +173,8 @@ html {
 
 /* Modal */
 
-.modal-background {
+.modal-background,
+.confirmation-modal-background {
   position: fixed;
   z-index: 5;
   left: 0;
@@ -181,7 +184,8 @@ html {
   background-color: var(--faded-background);
 }
 
-.modal-content {
+.modal-content,
+.confirmation-modal-content {
   position: relative;
   margin: 5em auto;
   padding: 0;
@@ -191,6 +195,12 @@ html {
   padding: 2em 10%;
   overflow-y: hidden;
   border: 5px solid var(--secondary-color);
+}
+
+.confirmation-modal-content {
+  width: 30%;
+  height: 30%;
+  text-align: center;
 }
 
 .close {
@@ -286,4 +296,37 @@ html {
   background-position: center;
   background-size: contain;
   background-repeat: no-repeat;
+}
+
+#expel,
+.accept,
+.decline {
+  width: 80px;
+  height: 30px;
+  background-color: #a62929ea;
+  color: white;
+  border: 3px solid black;
+  border-radius: 5px;
+  transition: 0.3s ease-in;
+}
+
+.decline {
+  background-color: #278c4bea;
+  color: white;
+  border: 3px solid black;
+}
+
+#expel:hover,
+.accept:hover {
+  cursor: pointer;
+  background-color: white;
+  border: 3px solid #a62929;
+  color: #a62929;
+}
+
+.decline:hover {
+  cursor: pointer;
+  background-color: white;
+  border: 3px solid #278c4b;
+  color: #278c4b;
 }
