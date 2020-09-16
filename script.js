@@ -147,42 +147,57 @@ function nameSeperator(data, student) {
   data.fullname.trim(); //Delete white space
   const seperateName = data.fullname.trim().split(" "); //Seperate names into parts
 
-  student.firstname =
-    seperateName[0][0].toUpperCase() +
-    seperateName[0].substring(1).toLowerCase(); //Get first name
+  student.firstname = getFirstName(seperateName);
+  student.lastname = getLastName(seperateName);
+  student.middlename = getMiddleNickName(student, seperateName).middlename;
+  student.nickname = getMiddleNickName(student, seperateName).nickname;
+}
 
-  student.lastname = seperateName.pop(); //Get last name
+function getFirstName(name) {
+  let firstname = name[0][0].toUpperCase() + name[0].substring(1).toLowerCase(); //Get first name
 
-  student.lastname =
-    student.lastname[0].toUpperCase() +
-    student.lastname.substring(1).toLowerCase(); //Get last name
+  return firstname;
+}
 
-  if (student.lastname && student.lastname.includes("-")) {
-    student.lastname =
-      student.lastname.substring(0, student.lastname.indexOf("-") + 1) +
-      student.lastname[student.lastname.indexOf("-") + 1].toUpperCase() +
-      student.lastname.substring(student.lastname.indexOf("-") + 2);
+function getLastName(name) {
+  let lastname = name.pop(); //Get last name
+
+  lastname = lastname[0].toUpperCase() + lastname.substring(1).toLowerCase(); //Get last name
+
+  if (lastname.includes("-")) {
+    lastname =
+      lastname.substring(0, lastname.indexOf("-") + 1) +
+      lastname[lastname.indexOf("-") + 1].toUpperCase() +
+      lastname.substring(lastname.indexOf("-") + 2);
   } //Uppercase names with hyphen
 
-  if (seperateName[1] != student.lastname) {
-    student.middlename = seperateName[1]; //Get middle name
+  return lastname;
+}
+
+function getMiddleNickName(student, name) {
+  let middlename;
+  let nickname;
+
+  if (name[1] != student.lastname) {
+    middlename = name[1]; //Get middle name
   }
 
-  if (student.middlename == undefined) {
-    student.nickname = undefined; //Set nickname undefined comparing to middle name
-  } else if (student.middlename.includes(`"`)) {
-    student.nickname = student.middlename.slice(1, -1); //Set nickname
+  if (middlename == undefined) {
+    nickname = undefined; //Set nickname undefined comparing to middle name
+  } else if (middlename.includes(`"`)) {
+    nickname = middlename.slice(1, -1); //Set nickname
   }
 
-  if (student.middlename) {
-    student.middlename =
-      student.middlename[0].toUpperCase() + student.middlename.substring(1);
+  if (middlename) {
+    middlename = middlename[0].toUpperCase() + middlename.substring(1);
   }
 
-  if (student.nickname == undefined) {
-  } else if (student.nickname == student.middlename.slice(1, -1)) {
-    student.middlename = undefined;
+  if (nickname == undefined) {
+  } else if (nickname == middlename.slice(1, -1)) {
+    middlename = undefined;
   }
+
+  return { middlename, nickname };
 }
 
 function setAndFindImg(student) {
@@ -221,12 +236,19 @@ function showModalContent(student) {
   modal.querySelector(".modal-first-name").innerHTML = student.firstname;
   modal.querySelector(".middle-name").innerHTML = student.middlename;
 
-  if (student.middlename == undefined) {
+  if (
+    !student.middlename &&
+    modal.querySelector(".middle-name").innerHTML == "undefined"
+  ) {
     modal.querySelector(".middle-name").classList.add("hide"); // Hide if there is no middlename
+  } else if (student.middlename) {
+    modal.querySelector(".middle-name").classList.remove("hide"); // Hide if there is no middlename
   }
 
   if (student.lastname == student.firstname) {
     modal.querySelector(".last-name").classList.add("hide"); // Hide if there is no middlename
+  } else if (student.lastname) {
+    modal.querySelector(".last-name").classList.remove("hide");
   }
 
   if (student.nickname) {
@@ -297,9 +319,7 @@ function confirmAction(action) {
 
 function sortingValues() {
   let valueOption = this.getAttribute("value");
-  console.log(valueOption);
   let direction = this.dataset.sort;
-  console.log(direction);
 
   if (direction == "asc") {
     this.dataset.sort = "dsc";
@@ -318,7 +338,6 @@ function sortStudents(students, key, direction) {
       return 1 * directionsSort(direction);
     }
   }
-  console.table(result);
   return result;
 }
 
