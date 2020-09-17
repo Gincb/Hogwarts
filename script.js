@@ -4,11 +4,24 @@ window.addEventListener("DOMContentLoaded", getData);
 
 //Add event
 const modalClose = document.querySelector(".close");
+const modalDeclinedClose = document.querySelector(".close-declined");
 const modal = document.querySelector(".modal-background");
+let declineModal = document.querySelector(
+  ".declined-confirmation-modal-background"
+);
+let confirmationModal = document.querySelector(
+  ".confirmation-modal-background"
+);
 
 modalClose.addEventListener("click", () => {
   modalClosingEvent(modal);
 });
+
+modalDeclinedClose.addEventListener("click", () => {
+  modalClosingEvent(declineModal);
+});
+
+let buttonHouse = ""; //Create a var when setting new housebased on filter
 
 let studentObject = [];
 let halfFamily = [];
@@ -26,6 +39,8 @@ let oneStudent = {
   image: "",
   bloodstatus: "",
   status: "",
+  prefect: "",
+  inquisitor: "",
 };
 
 function getData() {
@@ -81,18 +96,10 @@ function prepareData(jsonData) {
     setAndFindImg(student);
 
     student.status = "active";
+    student.inquisitor = false;
 
     studentObject.push(student);
   });
-
-  document
-    .querySelector("#expel-filter")
-    .addEventListener("click", displayExpelled);
-
-  document
-    .querySelector("#active-filter")
-    .addEventListener("click", displayStudentList);
-
   displayStudentList();
 }
 
@@ -105,6 +112,19 @@ function displayStudentList() {
   let buttonsSort = document.querySelectorAll("[data-sort]");
   buttonsSort.forEach((button) =>
     button.addEventListener("click", sortingValues)
+  );
+
+  document
+    .querySelector("#expel-filter")
+    .addEventListener("click", displayExpelled);
+
+  document
+    .querySelector("#active-filter")
+    .addEventListener("click", displayStudentList);
+
+  let buttonFilterHouse = document.querySelectorAll("#house-filter li");
+  buttonFilterHouse.forEach((button) =>
+    button.addEventListener("click", createHouseButton)
   );
 
   currentList = studentObject;
@@ -133,6 +153,14 @@ function displayStudent(student) {
     document.querySelector("#expel").addEventListener("click", expelStudent);
     function expelStudent() {
       confirmation(student);
+      acceptExpel(student);
+    }
+
+    document.querySelector("#is").addEventListener("click", setAsIS);
+    function setAsIS() {
+      setStudentToIS(student);
+      confirmation(student);
+      acceptIS(student);
     }
 
     modalOpeningEvent(modal);
@@ -270,6 +298,17 @@ function showModalContent(student) {
     modal.querySelector("#expel").classList.remove("hide");
     modal.querySelector(".expel-status").classList.add("hide");
   }
+
+  if (student.inquisitor === true) {
+    modal.querySelector("#is").classList.add("hide");
+    modal.querySelector(".is-revoke").classList.remove("hide");
+    modal.querySelector(".is-status").classList.remove("hide");
+  } else if (student.inquisitor === false) {
+    console.table(student);
+    modal.querySelector(".is-revoke").classList.add("hide");
+    modal.querySelector("#is").classList.remove("hide");
+    modal.querySelector(".is-status").classList.add("hide");
+  }
 }
 
 function expelling(student) {
@@ -293,22 +332,30 @@ function displayExpelled() {
   displayCurrentList(currentList);
 }
 
+function setStudentToIS(student) {
+  if (student.house === "Slytherin" && student.bloodstatus === "Pure-blood") {
+    student.inquisitor = true;
+  } else {
+    student.inquisitor = false;
+  }
+}
+
+function declinedConfirmation(student) {
+  if (student.inquisitor == true) {
+    declineModal.classList.add("hide");
+  } else if (student.inquisitor == false) {
+    modalClosingEvent(confirmationModal);
+    declineModal.dataset.theme = student.house;
+    declineModal.classList.remove("hide");
+  }
+}
+
 //Popup confirmation
 function confirmation(student) {
   modalClosingEvent(modal); //close the old modal
 
-  let confirmationModal = document.querySelector(
-    ".confirmation-modal-background"
-  );
   confirmationModal.dataset.theme = student.house;
   confirmationModal.classList.remove("hide");
-
-  //Confirmation event on click Yes
-  let accept = document.querySelector(".accept");
-  accept.addEventListener("click", () => {
-    modalClosingEvent(confirmationModal);
-    confirmAction(expelling(student));
-  });
 
   //Declining close the modal event on click No
   let decline = document.querySelector(".decline");
@@ -317,9 +364,49 @@ function confirmation(student) {
   });
 }
 
-//Do the function after it is confirmed
-function confirmAction(action) {
-  return action;
+function acceptExpel(student) {
+  //Confirmation event on click Yes
+  let accept = document.querySelector(".accept");
+  accept.addEventListener("click", () => {
+    modalClosingEvent(confirmationModal);
+    expelling(student);
+  });
+}
+
+function acceptIS(student) {
+  //Confirmation event on click Yes
+  let accept = document.querySelector(".accept");
+  accept.addEventListener("click", () => {
+    modalClosingEvent(confirmationModal);
+    declinedConfirmation(student);
+  });
+}
+
+//Change g var buttonHouse based on filter clicked
+function createHouseButton() {
+  cleanArrows(); //Reset for sorting
+  currentList = studentObject; //Reset for filterting
+  buttonHouse = this.innerHTML;
+  createFilteredList(currentList);
+}
+
+function filteringByHouse(students) {
+  const result = students.filter(filterFunction);
+
+  function filterFunction(student) {
+    if (student.house === buttonHouse) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+  return result;
+}
+
+function createFilteredList(students) {
+  const filteredHouse = filteringByHouse(students);
+  currentList = filteredHouse;
+  displayCurrentList(currentList);
 }
 
 function sortingValues() {

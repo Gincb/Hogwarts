@@ -22,7 +22,15 @@
           <li id="expel-filter" class="nav-links">Expelled</li>
           <li class="nav-links">Prefects</li>
           <li class="nav-links">Inquisitorial Squad</li>
-          <li class="nav-links">House</li>
+          <div class="drop-down-list">
+            <li class="nav-links drop-down">House▼</li>
+            <ul class="dropdown-content" id="house-filter">
+              <li id=" filter-house" class="nav-links" >Gryffindor</li>
+              <li id=" filter-house" class="nav-links">Hufflepuff</li>
+              <li id=" filter-house" class="nav-links">Ravenclaw</li>
+              <li id=" filter-house" class="nav-links">Slytherin</li>
+            </ul>
+          </div>
         </ul>
       </nav>
 
@@ -64,7 +72,11 @@
           <p class="nick-name-hide">AKA <span class="nick-name"></span></p>
           <p>Blood-status: <span class="blood-status"></span></p>
           <h3 class="expel-status hide">Expelled</h3>
+          <h3 class="is-status hide">Inquisitorial Squad</h3>
           <button id="expel">Expel</button>
+          <button id="is">Promote to Inquisitorial Squad</button>
+          <button id="is" class="is-revoke hide">Revoke Inquisitorial Squad Status</button>
+          <button id="prefect">Promote to Prefect</button>
         </div>
 
         <div class="house">
@@ -82,6 +94,14 @@
         <button class="decline">No</button>
         </div>
       </div>
+
+      <div class="declined-confirmation-modal-background hide" data-theme="">
+        <div class="declined-confirmation-modal-content">
+          <div class="close-declined"><span>X</span></div>
+          <h2>Sorry</h2>
+          <h3>This student doesn't meet the requirements for this position</h3>
+          </div>
+        </div>
 
         <div class="house">
           <div class="crest-img"></div>

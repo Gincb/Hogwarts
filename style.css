@@ -150,6 +150,7 @@ html {
 }
 
 .navbar-list {
+  position: relative;
   width: 100%;
   display: flex;
   margin-top: 0;
@@ -172,6 +173,29 @@ html {
   color: #260101;
 }
 
+.nav-links:hover {
+  color: #a6948a;
+}
+
+.dropdown-content {
+  padding: 0;
+  margin: 0;
+  display: none;
+  position: absolute;
+  z-index: 1;
+  background-color: whitesmoke;
+}
+
+.dropdown-content li {
+  padding: 0.5em;
+  text-decoration: none;
+  display: block;
+}
+
+.drop-down-list:hover .dropdown-content {
+  display: block;
+}
+
 .hide {
   display: none;
 }
@@ -179,7 +203,8 @@ html {
 /* Modal */
 
 .modal-background,
-.confirmation-modal-background {
+.confirmation-modal-background,
+.declined-confirmation-modal-background {
   position: fixed;
   z-index: 5;
   left: 0;
@@ -190,7 +215,8 @@ html {
 }
 
 .modal-content,
-.confirmation-modal-content {
+.confirmation-modal-content,
+.declined-confirmation-modal-content {
   position: relative;
   margin: 5em auto;
   padding: 0;
@@ -202,13 +228,15 @@ html {
   border: 5px solid var(--secondary-color);
 }
 
-.confirmation-modal-content {
+.confirmation-modal-content,
+.declined-confirmation-modal-content {
   width: 30%;
   height: 30%;
   text-align: center;
 }
 
-.close {
+.close,
+.close-declined {
   grid-area: close;
   cursor: pointer;
   position: absolute;
@@ -304,8 +332,10 @@ html {
 }
 
 #expel,
+#is,
 .accept,
-.decline {
+.decline,
+#prefect {
   width: 80px;
   height: 30px;
   background-color: #a62929ea;
@@ -315,6 +345,14 @@ html {
   transition: 0.3s ease-in;
 }
 
+#is,
+#expel,
+#prefect {
+  width: 160px;
+  height: 45px;
+}
+
+#is,
 .decline {
   background-color: #278c4bea;
   color: white;
@@ -329,9 +367,21 @@ html {
   color: #a62929;
 }
 
+#is:hover,
 .decline:hover {
   cursor: pointer;
   background-color: white;
   border: 3px solid #278c4b;
   color: #278c4b;
+}
+
+#prefect {
+  background-color: #a6948a;
+  border: 3px solid black;
+}
+
+#prefect:hover {
+  cursor: pointer;
+  background-color: white;
+  border: 3px solid #a6948a;
 }
