@@ -335,7 +335,8 @@ html {
 #is,
 .accept,
 .decline,
-#prefect {
+#prefect,
+#prefect-revoke {
   width: 80px;
   height: 30px;
   background-color: #a62929ea;
@@ -346,13 +347,16 @@ html {
 }
 
 #is,
+#is-revoke,
 #expel,
-#prefect {
+#prefect,
+#prefect-revoke {
   width: 160px;
   height: 45px;
 }
 
 #is,
+#is-revoke,
 .decline {
   background-color: #278c4bea;
   color: white;
@@ -368,6 +372,7 @@ html {
 }
 
 #is:hover,
+#is-revoke:hover,
 .decline:hover {
   cursor: pointer;
   background-color: white;
@@ -375,12 +380,14 @@ html {
   color: #278c4b;
 }
 
-#prefect {
+#prefect,
+#prefect-revoke {
   background-color: #a6948a;
   border: 3px solid black;
 }
 
-#prefect:hover {
+#prefect:hover,
+#prefect-revoke:hover {
   cursor: pointer;
   background-color: white;
   border: 3px solid #a6948a;
