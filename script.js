@@ -27,6 +27,7 @@ let studentObject = [];
 let halfFamily = [];
 let pureFamily = [];
 let expelledStudents = [];
+let isStudents = [];
 let currentList = [];
 
 let oneStudent = {
@@ -39,8 +40,7 @@ let oneStudent = {
   image: "",
   bloodstatus: "",
   status: "",
-  prefect: "",
-  inquisitor: "",
+  membership: "",
 };
 
 function getData() {
@@ -96,7 +96,7 @@ function prepareData(jsonData) {
     setAndFindImg(student);
 
     student.status = "active";
-    student.inquisitor = false;
+    student.membership = "none";
 
     studentObject.push(student);
   });
@@ -121,6 +121,8 @@ function displayStudentList() {
   document
     .querySelector("#active-filter")
     .addEventListener("click", displayStudentList);
+
+  document.querySelector("#is-filter").addEventListener("click", displayIS);
 
   let buttonFilterHouse = document.querySelectorAll("#house-filter li");
   buttonFilterHouse.forEach((button) =>
@@ -149,19 +151,6 @@ function displayStudent(student) {
 
   function openModal() {
     showModalContent(student);
-
-    document.querySelector("#expel").addEventListener("click", expelStudent);
-    function expelStudent() {
-      confirmation(student);
-      acceptExpel(student);
-    }
-
-    document.querySelector("#is").addEventListener("click", setAsIS);
-    function setAsIS() {
-      setStudentToIS(student);
-      confirmation(student);
-      acceptIS(student);
-    }
 
     modalOpeningEvent(modal);
 
@@ -265,6 +254,23 @@ function showModalContent(student) {
   modal.querySelector(".modal-first-name").innerHTML = student.firstname;
   modal.querySelector(".middle-name").innerHTML = student.middlename;
 
+  document.querySelector("#expel").addEventListener("click", expelStudent);
+  function expelStudent() {
+    confirmation(student);
+    acceptExpel(student);
+  }
+
+  document.querySelector("#is").addEventListener("click", setAsIS);
+  function setAsIS() {
+    confirmation(student);
+    acceptIS(student);
+  }
+
+  document.querySelector(".is-revoke").addEventListener("click", revoke);
+  function revoke() {
+    revokeIS(student);
+  }
+
   if (
     !student.middlename &&
     modal.querySelector(".middle-name").innerHTML == "undefined"
@@ -299,15 +305,18 @@ function showModalContent(student) {
     modal.querySelector(".expel-status").classList.add("hide");
   }
 
-  if (student.inquisitor === true) {
+  if (student.membership === "inquisitor") {
     modal.querySelector("#is").classList.add("hide");
-    modal.querySelector(".is-revoke").classList.remove("hide");
     modal.querySelector(".is-status").classList.remove("hide");
-  } else if (student.inquisitor === false) {
-    console.table(student);
-    modal.querySelector(".is-revoke").classList.add("hide");
+  } else if (student.membership === "none") {
     modal.querySelector("#is").classList.remove("hide");
     modal.querySelector(".is-status").classList.add("hide");
+  }
+
+  if (currentList === isStudents && student.membership === "inquisitor") {
+    document.querySelector(".is-revoke").classList.remove("hide");
+  } else {
+    document.querySelector(".is-revoke").classList.add("hide");
   }
 }
 
@@ -315,6 +324,7 @@ function expelling(student) {
   //Check if active, so there is no duplicates
   if (student.status === "active") {
     student.status = "expelled";
+    console.table(student);
     expelledStudents.push(student); //push to new array
     studentObject.splice(studentObject.indexOf(student), 1); //Remove from old array
     modal.querySelector("#expel").classList.add("hide");
@@ -327,26 +337,38 @@ function expelling(student) {
 }
 
 function displayExpelled() {
+  console.table(expelledStudents);
   cleanArrows();
   currentList = expelledStudents;
   displayCurrentList(currentList);
 }
 
-function setStudentToIS(student) {
-  if (student.house === "Slytherin" && student.bloodstatus === "Pure-blood") {
-    student.inquisitor = true;
-  } else {
-    student.inquisitor = false;
-  }
+function displayIS() {
+  cleanArrows();
+  currentList = isStudents;
+  displayCurrentList(currentList);
 }
 
-function declinedConfirmation(student) {
-  if (student.inquisitor == true) {
+function setStudentToIS(student) {
+  if (
+    student.membership === "none" &&
+    student.house === "Slytherin" &&
+    student.bloodstatus === "Pure-blood"
+  ) {
+    student.membership = "inquisitor";
+    isStudents.push(student); //push to new array
     declineModal.classList.add("hide");
-  } else if (student.inquisitor == false) {
-    modalClosingEvent(confirmationModal);
-    declineModal.dataset.theme = student.house;
+    modal.querySelector("#is").classList.add("hide");
+    modal.querySelector(".is-status").classList.remove("hide");
+    displayStudentList(displayStudent); //refresh the list
+  } else if (
+    student.house === "Slytherin" &&
+    student.bloodstatus === "Pure-blood"
+  ) {
+    declineModal.classList.add("hide");
+  } else if (student.membership === "none") {
     declineModal.classList.remove("hide");
+    declineModal.dataset.theme = student.house;
   }
 }
 
@@ -378,8 +400,20 @@ function acceptIS(student) {
   let accept = document.querySelector(".accept");
   accept.addEventListener("click", () => {
     modalClosingEvent(confirmationModal);
-    declinedConfirmation(student);
+    setStudentToIS(student);
   });
+}
+
+function revokeIS(student) {
+  console.table(isStudents);
+  //Check if active, so there is no duplicates
+  if (student.membership === "inquisitor") {
+    student.membership = "none";
+    isStudents.splice(isStudents.indexOf(student), 1); //Remove from old array
+
+    modalClosingEvent(modal);
+    displayCurrentList(currentList);
+  }
 }
 
 //Change g var buttonHouse based on filter clicked
