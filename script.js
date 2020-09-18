@@ -148,7 +148,7 @@ function displayCurrentList(currentList) {
   );
 
   countPrefects(prefectStudents);
-
+  displayCount(prefectStudents);
   currentList.forEach(displayStudent);
 }
 
@@ -643,5 +643,86 @@ function countPrefects(studentArray) {
     Hufflepuff: `${hhouse}`,
     Slytherin: `${shouse}`,
     Ravenclaw: `${rhouse}`,
+  });
+}
+
+function countHouses(studentArray) {
+  allHouses = [];
+  let ghouse = 0;
+  let shouse = 0;
+  let rhouse = 0;
+  let hhouse = 0;
+
+  studentArray.forEach((student) => {
+    if (student.house == "Gryffindor") ghouse++;
+    if (student.house == "Slytherin") shouse++;
+    if (student.house == "Hufflepuff") hhouse++;
+    if (student.house == "Ravenclaw") rhouse++;
+  });
+
+  allHouses.push({
+    Gryffindor: `${ghouse}`,
+    Hufflepuff: `${hhouse}`,
+    Slytherin: `${shouse}`,
+    Ravenclaw: `${rhouse}`,
+  });
+}
+
+function displayCount() {
+  countHouses(studentObject);
+  document.querySelector(".gnumber").textContent = allHouses[0].Gryffindor;
+  document.querySelector(".snumber").textContent = allHouses[0].Slytherin;
+  document.querySelector(".hnumber").textContent = allHouses[0].Hufflepuff;
+  document.querySelector(".rnumber").textContent = allHouses[0].Ravenclaw;
+  document.querySelector(".activenumber").textContent = studentObject.length;
+  document.querySelector(".expellednumber").textContent =
+    expelledStudents.length;
+  document.querySelector(".currentnumber").textContent = currentList.length;
+}
+
+function hackTheSystem() {
+  injectMe();
+  hackEvents();
+}
+
+function injectMe() {
+  let me = {
+    firstname: "Gintare",
+    middlename: undefined,
+    lastname: "Bespalovaite",
+    nickname: "Ginc",
+    house: "Slytherin",
+    image: "images/noimage.png",
+    bloodstatus: "Pure-blood",
+    status: "active",
+    inquisitor: false,
+    prefect: false,
+  };
+
+  studentObject.push(me);
+  currentList = studentObject;
+  displayCurrentList(currentList);
+}
+
+function hackEvents() {
+  document.querySelector(".thumbnail").classList.add("thumbnail-fade-out");
+
+  setTimeout(function () {
+    document.querySelector(".thumbnail").classList.remove("thumbnail-fade-out");
+    document.querySelector(".thumbnail").classList.remove("thumbnail-img");
+    document.querySelector(".thumbnail").classList.add("thumbnail-fade-in");
+    document.querySelector(".thumbnail").classList.add("thumbnail-glitch");
+    document.querySelector("#wrapper").classList.add("thumbnail-fade-in");
+    document.querySelector("#wrapper").classList.add("body-change");
+  }, 2000);
+}
+
+function declineExpel(student) {
+  //Confirmation event on click Yes
+  let accept = document.querySelector(".accept");
+  accept.addEventListener("click", () => {
+    modalClosingEvent(confirmationModal);
+    modalOpeningEvent(errorModal);
+    errorModal.classList.remove("hide");
   });
 }
