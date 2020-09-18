@@ -31,7 +31,7 @@
       </div>
 
       <!-- Navbar -->
-      <nav class="navbar">
+      <nav class="navbar navbar-filter">
         <ul class="navbar-list">
           <li id="active-filter" class="nav-links">Active Students</li>
           <li id="expel-filter" class="nav-links">Expelled</li>
@@ -50,7 +50,7 @@
       </nav>
 
       <div class="content-wrapper">
-        <nav class="navbar">
+        <nav class="navbar navbar-sort">
           <ul class="navbar-list">
             <li class="sort-tag">Sort by:</li>
             <li class="nav-links sort-li" data-sort="asc" value="house">House</li>
@@ -90,11 +90,13 @@
           <h3 class="expel-status hide">Expelled</h3>
           <h3 class="is-status hide">Inquisitorial Squad</h3>
           <h3 class="prefect-status hide">Prefect</h3>
-          <button id="expel">Expel</button>
-          <button id="is">Promote to Inquisitorial Squad</button>
-          <button id="is-revoke" class="hide">Revoke Inquisitorial Squad Status</button>
-          <button id="prefect">Promote to Prefect</button>
-          <button id="prefect-revoke" class="hide">Revoke Prefect Status</button>
+          <div class="buttons">
+            <button id="expel">Expel</button>
+            <button id="is">Promote to Inquisitorial Squad</button>
+            <button id="is-revoke" class="hide">Revoke Inquisitorial Squad Status</button>
+            <button id="prefect">Promote to Prefect</button>
+            <button id="prefect-revoke" class="hide">Revoke Prefect Status</button>
+          </div>
         </div>
 
         <div class="house">
@@ -106,8 +108,8 @@
 
     <div class="confirmation-modal-background hide" data-theme="">
       <div class="confirmation-modal-content">
-        <h2>Are you sure?</h2>
-        <h3>Before proceeding with the action, please confirm by pressing the buttons below</h3>
+        <h1>Are you sure?</h1>
+        <h2>Before proceeding with the action, please confirm by pressing the buttons below</h2>
         <button id="accept" class="accept">Yes</button>
         <button class="decline">No</button>
         </div>
@@ -116,18 +118,20 @@
       <div class="declined-confirmation-modal-background hide" data-theme="">
         <div class="declined-confirmation-modal-content">
           <div class="close-declined"><span>X</span></div>
-          <h2>Sorry</h2>
+          <h1>Sorry</h1>
           <h3>This student doesn't meet the requirements for this position</h3>
+          <h2 class="requirments"></h2>
           </div>
         </div>
 
         <div class="error-modal-background hide" data-theme="">
           <div class="error-modal-content">
             <div class="close-error"><span>X</span></div>
-            <h2>ERROR</h2>
-            <h3>Failed action "expellStudent", please try again later</h3>
-            </div>
+            <h1>ERROR</h1>
+            <h2>Failed action 己回冊ヨ乍凵几亡卞工回几, please try again later</h2>
+            <h2 class="hack-is"></h2>
           </div>
+        </div>
 
         <div class="house">
           <div class="crest-img"></div>

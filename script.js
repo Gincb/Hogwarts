@@ -3,9 +3,7 @@
 window.addEventListener("DOMContentLoaded", getData);
 
 //Add event
-const modalClose = document.querySelector(".close");
-const modalDeclinedClose = document.querySelector(".close-declined");
-const modalErrorClose = document.querySelector(".close-error");
+modalCloseButtons();
 const modal = document.querySelector(".modal-background");
 let declineModal = document.querySelector(
   ".declined-confirmation-modal-background"
@@ -14,18 +12,6 @@ let confirmationModal = document.querySelector(
   ".confirmation-modal-background"
 );
 let errorModal = document.querySelector(".error-modal-background");
-
-modalClose.addEventListener("click", () => {
-  modalClosingEvent(modal);
-});
-
-modalDeclinedClose.addEventListener("click", () => {
-  modalClosingEvent(declineModal);
-});
-
-modalErrorClose.addEventListener("click", () => {
-  modalClosingEvent(errorModal);
-});
 
 let buttonHouse = ""; //Create a var when setting new housebased on filter
 
@@ -59,7 +45,7 @@ let me = {
   lastname: "Bespalovaite",
   nickname: "Ginc",
   house: "Slytherin",
-  image: "images/noimage.png",
+  image: "images/me.jpg",
   bloodstatus: "Pure-blood",
   status: "active",
   inquisitor: false,
@@ -177,8 +163,14 @@ function displayStudent(student) {
   //Add animation for me after hack
   if (myClone.querySelector(".student").textContent.trim() === "Gintare") {
     myClone.querySelector(".student").classList.add("animation-shake");
+    myClone.querySelector(".first-name").textContent = "G̷̪̝͙͉̫͙̩̠̞̪̝͚̬̙̻̪͎̩̠͖͔̹͕̓̂̊̈͑̐͊͆̿͝ͅi̷̧̛͖͈͊̓̽̈͗͂̈́̽͂͝͠͝n̵̠̥̰̤̰̝̘͇̺̟̖͂̌̍̏̀̓͗͌̆̇̀̈́̃̈́̑́͋̏̓̂͂̒̅̿̉̈́͗͐͑̒̆́̃̈́̇̌̓̅̚͘͠͠ͅṯ̴̛̥͚̘̭͔̝̺̿̓̅̓̋̃̄̀̎̌a̵̧̡̢̱͇͖͓͎̺̺̦͖̻͓͍̱̫͍͕͓̲̞̺̳͖̫̱̜̮̝̪̣̝̺̙͚̞͊̏́͊͗̆́͑̚͜ͅŗ̷̧̣̫͉͉͓̦̗̫̣̱̋̆̋͌̀̑̾̐́̋̌̓̔̀͂̀͒̑́̉͌̈́̐̃͗̅̑̚͘͘̚͘͝e̴͕̪̺̜̬̖͚̰̜͙̙̣̹̙͉̠̱̪̜͉͓͈̩̜̣͈̜͖̜͚̊͒͌̂͛̌͐͂̀́̾̅͒̌͑́̈́̓͑͂̂͑̃̄̆̔̀̈́̌́̌̚͜͝͝";
+    myClone.querySelector(".name-fade").style.backgroundColor = "black";
   }
 
+  //Add specific class to reach for animation
+  myClone
+    .querySelector(".student")
+    .classList.add(`student-${student.firstname}`);
   myClone.querySelector(".student").addEventListener("click", openModal);
 
   function openModal() {
@@ -265,6 +257,34 @@ function setAndFindImg(student) {
   } else {
     student.image = `images/${student.lastname.toLowerCase()}_${student.firstname[0].toLowerCase()}.png`;
   }
+}
+
+function modalCloseButtons() {
+  //Add event
+  const modalClose = document.querySelector(".close");
+  const modalDeclinedClose = document.querySelector(".close-declined");
+  const modalErrorClose = document.querySelector(".close-error");
+
+  modalClose.addEventListener("click", () => {
+    modalClosingEvent(modal);
+  });
+
+  modalDeclinedClose.addEventListener("click", () => {
+    modalClosingEvent(declineModal);
+  });
+
+  modalErrorClose.addEventListener("click", () => {
+    modalClosingEvent(errorModal);
+    setTimeout(function () {
+      document
+        .querySelector(".error-modal-content > h2")
+        .classList.remove("hide");
+      document.querySelector(".hack-is").textContent = "";
+      document
+        .querySelector(".error-modal-content")
+        .classList.remove("animation-popup");
+    }, 500);
+  });
 }
 
 function modalClosingEvent(aModal) {
@@ -356,6 +376,8 @@ function hideStatusAndButton(student) {
   } else if (student.prefect === false && student.status === "active") {
     modal.querySelector("#prefect").classList.remove("hide");
     modal.querySelector(".prefect-status").classList.add("hide");
+  } else if (student.prefect === false) {
+    modal.querySelector(".prefect-status").classList.add("hide");
   }
 
   if (student.prefect === true) {
@@ -438,8 +460,6 @@ function expelling(student) {
     if (student.status === "active") {
       declineModal.classList.add("hide");
       student.status = "expelled";
-
-      console.table(student);
       expelledStudents.push(student); //push to new array
       studentObject.splice(studentObject.indexOf(student), 1); //Remove from old array
       displayAllStudentsList(displayStudent); //refresh the list
@@ -460,7 +480,13 @@ function acceptExpel(student) {
   let accept = document.querySelector(".accept");
   accept.addEventListener("click", () => {
     modalClosingEvent(confirmationModal);
-    expelling(student);
+    document
+      .querySelector(`.student-${student.firstname}`)
+      .classList.add("animationFadeRight");
+
+    setTimeout(function () {
+      expelling(student);
+    }, 500);
   });
 }
 
@@ -486,6 +512,9 @@ function inquisitor(student) {
     student.house === "Slytherin" &&
     student.bloodstatus === "Pure-blood"
   ) {
+    if (containsObject(me, studentObject) === true) {
+      errorDelete();
+    }
     student.inquisitor = true;
     isStudents.push(student); //push to new array
     declineModal.classList.add("hide");
@@ -530,7 +559,6 @@ function setAsPrefect(student) {
     student.prefect = true;
 
     prefectStudents.push(student); //push to new array
-    console.table(prefectStudents);
     declineModal.classList.add("hide");
     displayAllStudentsList(displayStudent); //refresh the list
   } else if (student.inquisitor === true) {
@@ -714,7 +742,8 @@ function displayCount() {
 
 function hackTheSystem() {
   injectMe();
-  hackEvents();
+  hackStyle();
+  errorDelete();
 
   studentObject.forEach(hackBlood);
   studentObject.forEach(hackIS); //Delete old Squad
@@ -730,7 +759,7 @@ function injectMe() {
   displayCurrentList(currentList);
 }
 
-function hackEvents() {
+function hackStyle() {
   document.querySelector(".thumbnail").classList.add("thumbnail-fade-out");
 
   setTimeout(function () {
@@ -740,6 +769,7 @@ function hackEvents() {
     document.querySelector(".thumbnail").classList.add("thumbnail-glitch");
     document.querySelector("#wrapper").classList.add("thumbnail-fade-in");
     document.querySelector("#wrapper").classList.add("body-change");
+    document.querySelector("#is-filter").textContent = "I̶͔̓n̸̛̠q̵̗̍u̸̟͘i̴̻̐s̸̢͗ǐ̸͙t̸͇̅ō̶͎ṛ̶͒ĭ̷̩a̷̝̔l̶͓̂ ̷̹͋S̴̖̈q̷̜̓ŭ̷͜a̶̰͘d̷̻̑";
   }, 200);
 }
 
@@ -793,6 +823,18 @@ function deleteInquisitor(student) {
     isStudents.splice(isStudents.indexOf(student), 1); //Remove from old array
     modalClosingEvent(confirmationModal);
     displayCurrentList(currentList);
-    console.log("IS is gone");
-  }, 5000);
+  }, 3000);
+}
+
+function errorDelete() {
+  setTimeout(function () {
+    document.querySelector(".error-modal-content > h2").classList.add("hide");
+    document.querySelector(".hack-is").textContent =
+      "I̶͔̓n̸̛̠q̵̗̍u̸̟͘i̴̻̐s̸̢͗ǐ̸͙t̸͇̅ō̶͎ṛ̶͒ĭ̷̩a̷̝̔l̶͓̂ ̷̹͋S̴̖̈q̷̜̓ŭ̷͜a̶̰͘d̷̻̑  has been taken down. No more SNITCHES!";
+    modalOpeningEvent(errorModal);
+    document
+      .querySelector(".error-modal-content")
+      .classList.add("animation-popup");
+    errorModal.classList.remove("hide");
+  }, 3000);
 }

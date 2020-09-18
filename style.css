@@ -131,6 +131,10 @@ html {
   margin: 2em;
 }
 
+img {
+  border-radius: 30px;
+}
+
 .name-fade {
   position: absolute;
   top: 0;
@@ -138,7 +142,7 @@ html {
   height: 100%;
   width: 100%;
   opacity: 0;
-  transition: 0.3s ease-in;
+  transition: 0.2s ease-in;
   background-color: #a6948af6;
   text-align: center;
   color: whitesmoke;
@@ -152,6 +156,25 @@ html {
 .student:hover .name-fade {
   cursor: pointer;
   opacity: 1;
+}
+
+.animationFadeRight {
+  animation: fadeRight 0.5s linear forwards;
+}
+
+@keyframes fadeRight {
+  0% {
+    opacity: 1;
+    transform: translate(0, 0);
+  }
+  50% {
+    opacity: 0.5;
+    transform: translate(50px, 0);
+  }
+  100% {
+    opacity: 0;
+    transform: translate(100px, 0);
+  }
 }
 
 .hide {
@@ -205,7 +228,7 @@ html {
   margin: 0;
   display: none;
   position: absolute;
-  z-index: 1;
+  z-index: 5;
   background-color: whitesmoke;
 }
 
@@ -249,7 +272,7 @@ html {
   position: relative;
   margin: 5em auto;
   padding: 0;
-  width: 60%;
+  width: 40%;
   max-height: 80%;
   background-color: var(--primary-color);
   padding: 2em 10%;
@@ -257,11 +280,16 @@ html {
   border: 5px solid var(--secondary-color);
 }
 
-.confirmation-modal-content,
+.confirmation-modal-content {
+  width: 30%;
+  height: 30%;
+  text-align: center;
+}
+
 .declined-confirmation-modal-content,
 .error-modal-content {
   width: 30%;
-  height: 30%;
+  height: 20%;
   text-align: center;
 }
 
@@ -335,7 +363,7 @@ html {
 
 /* Content */
 .student-content {
-  width: 100%;
+  width: 50%;
   text-align: center;
   color: var(--text-color);
 }
@@ -369,14 +397,21 @@ html {
 }
 
 /* Buttons */
+.buttons {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-evenly;
+  align-items: center;
+  padding: 1em;
+}
+
 #expel,
 #is,
 .accept,
 .decline,
 #prefect,
 #prefect-revoke {
-  width: 80px;
-  height: 30px;
+  width: 160px;
   background-color: #a62929ea;
   color: white;
   border: 3px solid black;
@@ -389,8 +424,9 @@ html {
 #expel,
 #prefect,
 #prefect-revoke {
+  margin: 1em;
   width: 160px;
-  height: 45px;
+  height: 40px;
 }
 
 #is,
@@ -398,7 +434,6 @@ html {
 .decline {
   background-color: #278c4bea;
   color: white;
-  border: 3px solid black;
 }
 
 #expel:hover,
@@ -457,5 +492,30 @@ html {
   }
   100% {
     transform: skew(-1deg) translate(-1px, 1px);
+  }
+}
+
+.animation-popup {
+  animation: moving 30s linear infinite;
+}
+
+@keyframes moving {
+  0% {
+    transform: translate(0, 0);
+  }
+  20% {
+    transform: translate(30vw, -10vh);
+  }
+  40% {
+    transform: translate(-30vw, 50vh);
+  }
+  60% {
+    transform: translate(0, -10vh);
+  }
+  80% {
+    transform: translate(30vw, 50vh);
+  }
+  100% {
+    transform: translate(0, 0);
   }
 }
