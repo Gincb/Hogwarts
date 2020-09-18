@@ -92,11 +92,11 @@ html {
 }
 
 .thumbnail-fade-out {
-  animation: fadeout 2s linear forwards;
+  animation: fadeout 1s linear forwards;
 }
 
 .thumbnail-fade-in {
-  animation: fadein 2s linear forwards;
+  animation: fadein 1s linear forwards;
 }
 
 .heading {
@@ -245,7 +245,7 @@ html {
 .modal-content,
 .confirmation-modal-content,
 .declined-confirmation-modal-content,
-.error-modal-background {
+.error-modal-content {
   position: relative;
   margin: 5em auto;
   padding: 0;
@@ -259,13 +259,13 @@ html {
 
 .confirmation-modal-content,
 .declined-confirmation-modal-content,
-.error-modal-background {
+.error-modal-content {
   width: 30%;
   height: 30%;
   text-align: center;
 }
 
-.error-modal-background {
+.error-modal-content {
   background-color: rgba(19, 19, 19, 0.801);
   color: rgb(230, 230, 230);
 }

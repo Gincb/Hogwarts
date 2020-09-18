@@ -53,6 +53,19 @@ let oneStudent = {
   prefect: "",
 };
 
+let me = {
+  firstname: "Gintare",
+  middlename: undefined,
+  lastname: "Bespalovaite",
+  nickname: "Ginc",
+  house: "Slytherin",
+  image: "images/noimage.png",
+  bloodstatus: "Pure-blood",
+  status: "active",
+  inquisitor: false,
+  prefect: false,
+};
+
 function getData() {
   fetch("https://petlatkea.dk/2020/hogwarts/students.json")
     .then((res) => res.json())
@@ -118,6 +131,7 @@ function displayAllStudentsList() {
   cleanArrows();
   document.querySelector(".content").innerHTML = "";
   currentList = studentObject;
+
   displayCurrentList(currentList);
 }
 
@@ -159,6 +173,11 @@ function displayStudent(student) {
 
   myClone.querySelector(".first-name").innerHTML = student.firstname;
   myClone.querySelector(".img").src = student.image;
+
+  //Add animation for me after hack
+  if (myClone.querySelector(".student").textContent.trim() === "Gintare") {
+    myClone.querySelector(".student").classList.add("animation-shake");
+  }
 
   myClone.querySelector(".student").addEventListener("click", openModal);
 
@@ -281,8 +300,9 @@ function showModalContent(student) {
 
 function hideUndefinedNames(student) {
   if (
-    !student.middlename &&
-    modal.querySelector(".middle-name").innerHTML == "undefined"
+    !student.middlename ||
+    (!student.middlename &&
+      modal.querySelector(".middle-name").innerHTML == "undefined")
   ) {
     modal.querySelector(".middle-name").classList.add("hide"); // Hide if there is no middlename
   } else if (student.middlename) {
@@ -408,30 +428,30 @@ function removeEvents() {
   const acceptButton = document.querySelector(".accept"),
     acceptButtonClone = acceptButton.cloneNode(true);
   acceptButton.parentNode.replaceChild(acceptButtonClone, acceptButton);
-
-  const declineButton = document.querySelector(".decline"),
-    declineButtonClone = declineButton.cloneNode(true);
-  declineButton.parentNode.replaceChild(declineButtonClone, declineButton);
 }
 
 function expelling(student) {
-  //Check if active, so there is no duplicates
-  if (student.status === "active") {
-    declineModal.classList.add("hide");
-    student.status = "expelled";
+  if (student.firstname === "Gintare") {
+    declineExpel();
+  } else {
+    //Check if active, so there is no duplicates
+    if (student.status === "active") {
+      declineModal.classList.add("hide");
+      student.status = "expelled";
 
-    console.table(student);
-    expelledStudents.push(student); //push to new array
-    studentObject.splice(studentObject.indexOf(student), 1); //Remove from old array
-    displayAllStudentsList(displayStudent); //refresh the list
-  }
-  if (student.prefect === true) {
-    student.prefect = false;
-    prefectStudents.splice(prefectStudents.indexOf(student), 1); //Remove from old array
-  }
-  if (student.inquisitor === true) {
-    student.inquisitor = false;
-    isStudents.splice(isStudents.indexOf(student), 1); //Remove from old array
+      console.table(student);
+      expelledStudents.push(student); //push to new array
+      studentObject.splice(studentObject.indexOf(student), 1); //Remove from old array
+      displayAllStudentsList(displayStudent); //refresh the list
+    }
+    if (student.prefect === true) {
+      student.prefect = false;
+      prefectStudents.splice(prefectStudents.indexOf(student), 1); //Remove from old array
+    }
+    if (student.inquisitor === true) {
+      student.inquisitor = false;
+      isStudents.splice(isStudents.indexOf(student), 1); //Remove from old array
+    }
   }
 }
 
@@ -451,6 +471,16 @@ function displayExpelled() {
 }
 
 function setStudentToIS(student) {
+  //Check if I exist in the array
+  if (containsObject(me, studentObject) === true) {
+    inquisitor(student);
+    deleteInquisitor(student);
+  } else {
+    inquisitor(student);
+  }
+}
+
+function inquisitor(student) {
   if (
     student.inquisitor === false &&
     student.house === "Slytherin" &&
@@ -483,7 +513,7 @@ function acceptRevokeIS(student) {
     if (student.inquisitor === true) {
       student.inquisitor = false;
       isStudents.splice(isStudents.indexOf(student), 1); //Remove from old array
-      modalClosingEvent(modal);
+      modalClosingEvent(confirmationModal);
       displayCurrentList(currentList);
     }
   });
@@ -527,7 +557,7 @@ function acceptRevokePrefect(student) {
       student.prefect = false;
       prefectStudents.splice(prefectStudents.indexOf(student), 1); //Remove from old array
       declineModal.classList.add("hide");
-      modalClosingEvent(modal);
+      modalClosingEvent(confirmationModal);
       displayCurrentList(currentList);
     }
   });
@@ -544,6 +574,7 @@ function confirmation(student) {
   modalClosingEvent(modal); //close the old modal
 
   confirmationModal.dataset.theme = student.house;
+  modalOpeningEvent(confirmationModal);
   confirmationModal.classList.remove("hide");
 
   //Declining close the modal event on click No
@@ -668,6 +699,7 @@ function countHouses(studentArray) {
   });
 }
 
+//Count and desplay student numbers
 function displayCount() {
   countHouses(studentObject);
   document.querySelector(".gnumber").textContent = allHouses[0].Gryffindor;
@@ -683,23 +715,17 @@ function displayCount() {
 function hackTheSystem() {
   injectMe();
   hackEvents();
+
+  studentObject.forEach(hackBlood);
+  studentObject.forEach(hackIS); //Delete old Squad
 }
 
 function injectMe() {
-  let me = {
-    firstname: "Gintare",
-    middlename: undefined,
-    lastname: "Bespalovaite",
-    nickname: "Ginc",
-    house: "Slytherin",
-    image: "images/noimage.png",
-    bloodstatus: "Pure-blood",
-    status: "active",
-    inquisitor: false,
-    prefect: false,
-  };
+  //Check if I exist in the array
+  if (containsObject(me, studentObject) === false) {
+    studentObject.push(me);
+  }
 
-  studentObject.push(me);
   currentList = studentObject;
   displayCurrentList(currentList);
 }
@@ -714,15 +740,59 @@ function hackEvents() {
     document.querySelector(".thumbnail").classList.add("thumbnail-glitch");
     document.querySelector("#wrapper").classList.add("thumbnail-fade-in");
     document.querySelector("#wrapper").classList.add("body-change");
-  }, 2000);
+  }, 200);
 }
 
-function declineExpel(student) {
-  //Confirmation event on click Yes
-  let accept = document.querySelector(".accept");
-  accept.addEventListener("click", () => {
+//Error Modal
+function declineExpel() {
+  modalClosingEvent(confirmationModal);
+  modalOpeningEvent(errorModal);
+  errorModal.classList.remove("hide");
+}
+
+// Found in https://stackoverflow.com/questions/4587061/how-to-determine-if-object-is-in-array
+function containsObject(obj, list) {
+  var i;
+  for (i = 0; i < list.length; i++) {
+    if (list[i].firstname === obj.firstname) {
+      return true;
+    }
+  }
+
+  return false;
+}
+
+function hackBlood(student) {
+  if (student.bloodstatus === "Pure-blood") {
+    student.bloodstatus = getRandomBlood();
+  } else if (
+    student.bloodstatus === "Half-blood" ||
+    student.bloodstatus === "Muggle"
+  ) {
+    student.bloodstatus = "Pure-blood";
+  }
+}
+
+//Found in https://stackoverflow.com/questions/4550505/getting-a-random-value-from-a-javascript-array
+function getRandomBlood() {
+  let bloodArray = ["Pure-blood", "Half-blood", "Muggle"];
+  const randomBlood = bloodArray[Math.floor(Math.random() * bloodArray.length)];
+
+  return randomBlood;
+}
+
+function hackIS(student) {
+  if (student.inquisitor === true) {
+    deleteInquisitor(student);
+  }
+}
+
+function deleteInquisitor(student) {
+  setTimeout(function () {
+    student.inquisitor = false;
+    isStudents.splice(isStudents.indexOf(student), 1); //Remove from old array
     modalClosingEvent(confirmationModal);
-    modalOpeningEvent(errorModal);
-    errorModal.classList.remove("hide");
-  });
+    displayCurrentList(currentList);
+    console.log("IS is gone");
+  }, 5000);
 }
