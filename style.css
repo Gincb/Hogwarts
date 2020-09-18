@@ -271,7 +271,6 @@ img {
 .error-modal-content {
   position: relative;
   margin: 5em auto;
-  padding: 0;
   width: 40%;
   max-height: 80%;
   background-color: var(--primary-color);
@@ -410,8 +409,9 @@ img {
 .accept,
 .decline,
 #prefect,
-#prefect-revoke {
-  width: 160px;
+#prefect-revoke,
+.new-student {
+  padding: 0.5em;
   background-color: #a62929ea;
   color: white;
   border: 3px solid black;
@@ -426,7 +426,6 @@ img {
 #prefect-revoke {
   margin: 1em;
   width: 160px;
-  height: 40px;
 }
 
 #is,
@@ -454,13 +453,16 @@ img {
 }
 
 #prefect,
-#prefect-revoke {
+#prefect-revoke,
+.new-student {
   background-color: #a6948a;
   border: 3px solid black;
 }
 
 #prefect:hover,
-#prefect-revoke:hover {
+#prefect-revoke:hover,
+.new-student:hover {
+  color: #a6948a;
   cursor: pointer;
   background-color: white;
   border: 3px solid #a6948a;

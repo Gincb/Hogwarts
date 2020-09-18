@@ -3,7 +3,7 @@
 window.addEventListener("DOMContentLoaded", getData);
 
 //Add event
-modalCloseButtons();
+initialEvents();
 const modal = document.querySelector(".modal-background");
 let declineModal = document.querySelector(
   ".declined-confirmation-modal-background"
@@ -24,6 +24,7 @@ let prefectStudents = [];
 let currentList = [];
 let allHouses = [];
 let prefectHouses = [];
+let searchStudents = [];
 
 let oneStudent = {
   firstname: "",
@@ -147,6 +148,14 @@ function displayCurrentList(currentList) {
     button.addEventListener("click", createHouseButton)
   );
 
+  document
+    .querySelector(".new-student")
+    .addEventListener("click", hackTheSystem);
+
+  document
+    .querySelector(".search")
+    .addEventListener("input", searchStudentList);
+
   countPrefects(prefectStudents);
   displayCount(prefectStudents);
   currentList.forEach(displayStudent);
@@ -259,7 +268,26 @@ function setAndFindImg(student) {
   }
 }
 
-function modalCloseButtons() {
+function searchStudentList() {
+  let inputValue = this.value;
+  for (let i = 0; i <= studentObject.length; i++) {
+    if (
+      studentObject[i].firstname == inputValue ||
+      studentObject[i].lastname == inputValue
+    ) {
+      console.log(studentObject[i]);
+      searchStudents.push(studentObject[i]);
+      console.table(searchStudents);
+      currentList = searchStudents;
+      displayCurrentList(currentList);
+    } else if (inputValue === "") {
+      searchStudents = [];
+      displayCurrentList(studentObject);
+    }
+  }
+}
+
+function initialEvents() {
   //Add event
   const modalClose = document.querySelector(".close");
   const modalDeclinedClose = document.querySelector(".close-declined");

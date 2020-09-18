@@ -52,11 +52,13 @@
       <div class="content-wrapper">
         <nav class="navbar navbar-sort">
           <ul class="navbar-list">
+            <li><button class="new-student">Add a student</button></li>
             <li class="sort-tag">Sort by:</li>
             <li class="nav-links sort-li" data-sort="asc" value="house">House</li>
             <li class="nav-links sort-li" data-sort="asc" value="firstname">First name</li>
             <li class="nav-links sort-li" data-sort="asc" value="lastname">Last name</li>
             <li class="nav-links sort-li" data-sort="asc" value="bloodstatus">Blood status</li>
+            <li><input class="search" type="text"></li>
           </ul>
         </nav>
         <main class="content"></main>
@@ -109,7 +111,7 @@
     <div class="confirmation-modal-background hide" data-theme="">
       <div class="confirmation-modal-content">
         <h1>Are you sure?</h1>
-        <h2>Before proceeding with the action, please confirm by pressing the buttons below</h2>
+        <h2>Before proceeding with the action, please confirm by pressing the buttons below.</h2>
         <button id="accept" class="accept">Yes</button>
         <button class="decline">No</button>
         </div>
@@ -119,8 +121,7 @@
         <div class="declined-confirmation-modal-content">
           <div class="close-declined"><span>X</span></div>
           <h1>Sorry</h1>
-          <h3>This student doesn't meet the requirements for this position</h3>
-          <h2 class="requirments"></h2>
+          <h3>This action has failed due to requirements not being met.</h3>
           </div>
         </div>
 
@@ -128,7 +129,7 @@
           <div class="error-modal-content">
             <div class="close-error"><span>X</span></div>
             <h1>ERROR</h1>
-            <h2>Failed action 己回冊ヨ乍凵几亡卞工回几, please try again later</h2>
+            <h2>Failed action 己回冊ヨ乍凵几亡卞工回几, please try again later.</h2>
             <h2 class="hack-is"></h2>
           </div>
         </div>
