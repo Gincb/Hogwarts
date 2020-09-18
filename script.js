@@ -5,6 +5,7 @@ window.addEventListener("DOMContentLoaded", getData);
 //Add event
 const modalClose = document.querySelector(".close");
 const modalDeclinedClose = document.querySelector(".close-declined");
+const modalErrorClose = document.querySelector(".close-error");
 const modal = document.querySelector(".modal-background");
 let declineModal = document.querySelector(
   ".declined-confirmation-modal-background"
@@ -12,6 +13,7 @@ let declineModal = document.querySelector(
 let confirmationModal = document.querySelector(
   ".confirmation-modal-background"
 );
+let errorModal = document.querySelector(".error-modal-background");
 
 modalClose.addEventListener("click", () => {
   modalClosingEvent(modal);
@@ -19,6 +21,10 @@ modalClose.addEventListener("click", () => {
 
 modalDeclinedClose.addEventListener("click", () => {
   modalClosingEvent(declineModal);
+});
+
+modalErrorClose.addEventListener("click", () => {
+  modalClosingEvent(errorModal);
 });
 
 let buttonHouse = ""; //Create a var when setting new housebased on filter
@@ -142,6 +148,7 @@ function displayCurrentList(currentList) {
   );
 
   countPrefects(prefectStudents);
+
   currentList.forEach(displayStudent);
 }
 
@@ -397,6 +404,14 @@ function removeEvents() {
     prefectRevokeButtonClone,
     prefectRevokeButton
   );
+
+  const acceptButton = document.querySelector(".accept"),
+    acceptButtonClone = acceptButton.cloneNode(true);
+  acceptButton.parentNode.replaceChild(acceptButtonClone, acceptButton);
+
+  const declineButton = document.querySelector(".decline"),
+    declineButtonClone = declineButton.cloneNode(true);
+  declineButton.parentNode.replaceChild(declineButtonClone, declineButton);
 }
 
 function expelling(student) {

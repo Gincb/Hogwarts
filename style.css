@@ -6,8 +6,8 @@
 body,
 html {
   margin: 0;
+  padding: 0;
   color: #0d0000;
-  background-color: #d9d0d0;
   font-family: "JoseFinSlab-Regular";
 }
 
@@ -61,22 +61,45 @@ html {
 }
 
 .wrapper {
-  margin: 2em auto;
+  margin: 0;
+  padding: 0;
+  background-color: #d9d0d0;
+}
+
+.wrapper-header {
+  margin: auto;
   width: 90vw;
+}
+
+.numbers {
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
 }
 
 .thumbnail {
   margin: 2em 0;
-  width: 100%;
+  width: 30vw;
   height: 30vh;
-  background-image: url("https://images.unsplash.com/photo-1598153346810-860daa814c4b?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=2090&q=80");
-  background-size: cover;
+
+  background-size: contain;
   background-position: center;
+  background-repeat: no-repeat;
+}
+
+.thumbnail-img {
+  background-image: url("images/hogwarts_crest.png");
+}
+
+.thumbnail-fade-out {
+  animation: fadeout 2s linear forwards;
+}
+
+.thumbnail-fade-in {
+  animation: fadein 2s linear forwards;
 }
 
 .heading {
-  position: relative;
-  top: 30%;
   margin: auto;
   padding: 0.5em 0;
   text-align: center;
@@ -196,15 +219,20 @@ html {
   display: block;
 }
 
+.sort-tag {
+  color: black;
+}
+
 .hide {
   display: none;
 }
 
-/* Modal */
+/* Modals */
 
 .modal-background,
 .confirmation-modal-background,
-.declined-confirmation-modal-background {
+.declined-confirmation-modal-background,
+.error-modal-background {
   position: fixed;
   z-index: 5;
   left: 0;
@@ -216,7 +244,8 @@ html {
 
 .modal-content,
 .confirmation-modal-content,
-.declined-confirmation-modal-content {
+.declined-confirmation-modal-content,
+.error-modal-background {
   position: relative;
   margin: 5em auto;
   padding: 0;
@@ -229,14 +258,21 @@ html {
 }
 
 .confirmation-modal-content,
-.declined-confirmation-modal-content {
+.declined-confirmation-modal-content,
+.error-modal-background {
   width: 30%;
   height: 30%;
   text-align: center;
 }
 
+.error-modal-background {
+  background-color: rgba(19, 19, 19, 0.801);
+  color: rgb(230, 230, 230);
+}
+
 .close,
-.close-declined {
+.close-declined,
+.close-error {
   grid-area: close;
   cursor: pointer;
   position: absolute;
@@ -297,6 +333,7 @@ html {
   height: 50vh;
 }
 
+/* Content */
 .student-content {
   width: 100%;
   text-align: center;
@@ -331,6 +368,7 @@ html {
   background-repeat: no-repeat;
 }
 
+/* Buttons */
 #expel,
 #is,
 .accept,
@@ -391,4 +429,33 @@ html {
   cursor: pointer;
   background-color: white;
   border: 3px solid #a6948a;
+}
+
+/* Glitches */
+.thumbnail-glitch {
+  background-image: url("images/glitched-crest.jpg");
+}
+
+.body-change {
+  background-color: black;
+  color: white;
+}
+
+.animation-shake {
+  animation: shake 0.1s linear infinite;
+}
+
+@keyframes shake {
+  0% {
+    transform: skew(0deg) translate(0px, 0px);
+  }
+  30% {
+    transform: skew(1deg) translate(-1px, 1px);
+  }
+  70% {
+    transform: skew(0deg) translate(0px, 0px);
+  }
+  100% {
+    transform: skew(-1deg) translate(-1px, 1px);
+  }
 }
